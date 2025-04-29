@@ -15,7 +15,7 @@ console.log("Express.json initialized");
 
 app.get("/", (_, res) => res.send("✅ App is running"));
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8181;
 console.log(`Starting server on port ${PORT}`);
 
 app.listen(PORT, () => {
