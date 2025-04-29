@@ -1,5 +1,4 @@
-const { generateId } = require("../../helpers/generateId");
-const prisma = require("../../config/prisma");
+const { generateId } = require("../../utils/generateId");
 
 // Define B2C resell platforms
 const resellPlatforms = [
@@ -216,7 +215,7 @@ const resellPlatforms = [
   },
 ];
 
-async function seedResellPlatforms() {
+async function seedResellPlatforms(prisma) {
   for (const platform of resellPlatforms) {
     // Try to find the platform first by URL
     const existing = await prisma.resellPlatform.findUnique({

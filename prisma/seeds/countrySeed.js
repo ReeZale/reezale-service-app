@@ -1,4 +1,3 @@
-const prisma = require("../../config/prisma");
 
 const countries = [
   // North America
@@ -60,7 +59,7 @@ const countries = [
   { code: "VA", name: "Vatican City" },
 ];
 
-async function seedCountries() {
+async function seedCountries(prisma) {
   for (const country of countries) {
     await prisma.country.upsert({
       where: { code: country.code },

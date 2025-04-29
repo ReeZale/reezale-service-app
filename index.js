@@ -2,8 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-//const router = require("./router");
-//const prisma = require("./config/prisma");
+const router = require("./router");
+const prisma = require("./config/prisma");
 
 console.log("Initializing app");
 
@@ -22,7 +22,7 @@ console.log("Initializing routes");
 app.get("/health", (_, res) => res.send("✅ Healthy"));
 app.get("/", (_, res) => res.send("✅ App is running"));
 
-//app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 const PORT = process.env.WEBSITES_URL || 8080;
 

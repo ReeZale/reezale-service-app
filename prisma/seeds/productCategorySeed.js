@@ -1,4 +1,3 @@
-const prisma = require("../../config/prisma");
 
 const productCategories = [
   { key: "clothing", label: "Clothing" },
@@ -22,7 +21,7 @@ const productCategories = [
   { key: "miscellaneous", label: "Miscellaneous" },
 ];
 
-async function seedProductCategories() {
+async function seedProductCategories(prisma) {
   for (const category of productCategories) {
     await prisma.productCategory.upsert({
       where: { key: category.key },
