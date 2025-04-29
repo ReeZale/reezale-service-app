@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx prisma generate",
-    "start": "npx prisma db push && node index.js",
+    "start": "npx prisma db push && npx prisma db seed && node index.js",
     "postinstall": "npx prisma generate",
     "db:push": "npx prisma db push",
     "seed": "npx prisma db seed"
