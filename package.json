@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx prisma generate",
     "dev": "node index.js",
-    "start": "npx prisma generate && npx prisma db push && node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
