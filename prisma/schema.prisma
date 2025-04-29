@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Partner {
+  id                String                   @id
+  name              String
+  url               String
+  logo              String
+  tagline           String
+  description       String
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+  channels          PartnerChannel[]
+  locations         PartnerLocation[]
+  productCategories PartnerProductCategory[]
+  roleAssignments   PartnerRoleAssignment[]
+}
+
+model PartnerRole {
+  id        String                  @id
+  key       String                  @unique
+  label     String
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+  partners  PartnerRoleAssignment[]
+}
+
+model PartnerRoleAssignment {
+  id        String      @id
+  partnerId String
+  roleId    String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  partner   Partner     @relation(fields: [partnerId], references: [id])
+  role      PartnerRole @relation(fields: [roleId], references: [id])
+
+  @@unique([partnerId, roleId])
+}
+
+model PartnerChannel {
+  id        String                  @id
+  partnerId String
+  type      ChannelType
+  url       String?
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+  partner   Partner                 @relation(fields: [partnerId], references: [id])
+  services  PartnerServiceProfile[]
+}
+
+model PartnerLocation {
+  id               String                  @id
+  partnerId        String
+  name             String
+  formattedAddress String
+  lat              Float
+  lng              Float
+  countryCode      String
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  country          Country                 @relation(fields: [countryCode], references: [code])
+  partner          Partner                 @relation(fields: [partnerId], references: [id])
+  services         PartnerServiceProfile[]
+
+  @@index([countryCode])
+  @@index([lat, lng])
+}
+
+model PartnerServiceProfile {
+  id            String           @id
+  channelId     String?
+  locationId    String?
+  serviceTypeId String
+  available     Boolean          @default(true)
+  notes         String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  channel       PartnerChannel?  @relation(fields: [channelId], references: [id])
+  location      PartnerLocation? @relation(fields: [locationId], references: [id])
+  serviceType   ServiceType      @relation(fields: [serviceTypeId], references: [id])
+
+  @@unique([channelId, locationId, serviceTypeId])
+}
+
+model ServiceType {
+  id        String                  @id
+  key       String                  @unique
+  label     String
+  icon      String?
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+  services  PartnerServiceProfile[]
+}
+
+model ProductCategory {
+  id              String                   @id
+  key             String                   @unique
+  label           String
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  partners        PartnerProductCategory[]
+  resellPlatforms ResellPlatformCategory[]
+}
+
+model PartnerProductCategory {
+  id                String          @id
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  partnerId         String
+  productCategoryId String
+  partner           Partner         @relation(fields: [partnerId], references: [id])
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id])
+
+  @@unique([partnerId, productCategoryId])
+}
+
+model ResellPlatform {
+  id                String                   @id
+  name              String
+  url               String                   @unique
+  logo              String?
+  tagline           String
+  description       String
+  platformType      ResellPlatformType
+  createdAt         DateTime                 @default(now())
+  updatedAt         DateTime                 @updatedAt
+  altTagline        String?
+  canSell           Boolean                  @default(true)
+  productCategories ResellPlatformCategory[]
+  countries         ResellPlatformCountry[]
+}
+
+model ResellPlatformCategory {
+  id                String          @id
+  resellPlatformId  String
+  productCategoryId String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id])
+  resellPlatform    ResellPlatform  @relation(fields: [resellPlatformId], references: [id])
+
+  @@unique([resellPlatformId, productCategoryId])
+}
+
+model ResellPlatformCountry {
+  id               String         @id
+  countryCode      String
+  resellPlatformId String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  country          Country        @relation(fields: [countryCode], references: [code])
+  resellPlatform   ResellPlatform @relation(fields: [resellPlatformId], references: [id])
+
+  @@unique([resellPlatformId, countryCode])
+}
+
+model Country {
+  code            String                  @id
+  name            String
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  partners        PartnerLocation[]
+  resellPlatforms ResellPlatformCountry[]
+}
+
+enum ChannelType {
+  ECOMMERCE
+  APP
+  KIOSK
+  OTHER
+}
+
+enum ResellPlatformType {
+  B2C
+  C2C
+  B2B
+}

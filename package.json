@@ -4,7 +4,10 @@
   "description": "reezale service application",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "build": "npx prisma generate && npx prisma db push",
+    "start": "node index.js",
+    "deploy": "npm run build && npm start",
+    "seed": "npx prisma db seed"
   },
   "repository": {
     "type": "git",
@@ -17,9 +20,11 @@
   },
   "homepage": "https://github.com/zacrodney/reezale-service-app#readme",
   "dependencies": {
+    "@prisma/client": "^6.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "node": "^22.15.0"
+    "node": "^22.15.0",
+    "prisma": "^6.6.0"
   }
 }
