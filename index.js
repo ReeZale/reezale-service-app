@@ -34,7 +34,7 @@ app.get("/", (_, res) => res.send("✅ App is running"));
 
 app.use("/api/v1", router);
 
-const PORT = process.env.WEBSITES_URL || 8080;
+const PORT = process.env.PORT || 8080;
 
 console.log("Port from .env", PORT);
 console.log(`Starting server on port ${PORT}`);
