@@ -15,7 +15,7 @@ app.get("/", (_, res) => res.send("✅ App is running"));
 
 app.use("/api/v1", router);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 console.log(`Starting server on port ${PORT}`);
 
 app.listen(PORT, () => {
