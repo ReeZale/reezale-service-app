@@ -4,8 +4,18 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./router");
 const prisma = require("./config/prisma");
+const { initializeApp } = require("./utils/initializeApp");
 
-console.log("Initializing app");
+console.log("Initializing app data");
+
+(async () => {
+  try {
+    await initializeApp(prisma);
+  } catch (err) {
+    console.error("❌ Failed to initialize app:", err);
+    process.exit(1);
+  }
+})();
 
 const app = express();
 

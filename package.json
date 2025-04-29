@@ -4,13 +4,9 @@
   "description": "reezale service application",
   "main": "index.js",
   "scripts": {
-    "build": "npx prisma generate && npx prisma db push && npx prisma db seed",
+    "build": "npx prisma generate",
     "dev": "node index.js",
-    "start": "npx prisma generate && npx prisma db push && npx prisma db seed && node index.js",
-    "postinstall": "npx prisma generate"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.js"
+    "start": "npx prisma generate && npx prisma db push && node index.js"
   },
   "repository": {
     "type": "git",
