@@ -19,18 +19,18 @@ try {
 }
 
 try {
-  router = require("./router");
-  console.log("✅ Loaded router");
-} catch (err) {
-  console.error("❌ Failed to load router:", err);
-  process.exit(1);
-}
-
-try {
   prisma = require("./config/prisma");
   console.log("✅ Loaded prisma");
 } catch (err) {
   console.error("❌ Failed to load prisma:", err);
+  process.exit(1);
+}
+
+try {
+  router = require("./router");
+  console.log("✅ Loaded router");
+} catch (err) {
+  console.error("❌ Failed to load router:", err);
   process.exit(1);
 }
 
