@@ -4,8 +4,6 @@
   "description": "reezale service application",
   "main": "index.js",
   "scripts": {
-    "build": "npx prisma generate",
-    "dev": "npx prisma generate && node index.js",
     "start": "node index.js"
   },
   "repository": {
