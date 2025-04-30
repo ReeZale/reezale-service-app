@@ -1,8 +1,8 @@
-import { seedCountries } from "../prisma/seeds/countrySeed";
-import { seedProductCategories } from "../prisma/seeds/productCategorySeed";
-import { seedResellPlatforms } from "../prisma/seeds/resellPlatformSeed";
+const seedCountries = require("./seeds/countrySeed");
+const seedProductCategories = require("./seeds/productCategorySeed");
+const seedResellPlatforms = require("./seeds/resellPlatformSeed");
 
-export async function initializeApp(prisma) {
+async function initializeApp(prisma) {
   try {
     await seedCountries(prisma);
     await seedProductCategories(prisma);
@@ -13,3 +13,5 @@ export async function initializeApp(prisma) {
     throw error;
   }
 }
+
+module.exports = initializeApp;

@@ -1,6 +1,8 @@
+const initializeApp = require("./utils/initializeApp");
+
 require("dotenv").config();
 
-let express, cors, router, prisma, initializeApp;
+let express, cors, router, prisma;
 
 try {
   express = require("express");
@@ -33,17 +35,6 @@ try {
   console.error("❌ Failed to load router:", err);
   process.exit(1);
 }
-
-try {
-  initializeApp = require("./utils/initializeApp").initializeApp;
-  console.log("✅ Loaded initializeApp");
-} catch (err) {
-  console.error("❌ Failed to load initializeApp:", err);
-  process.exit(1);
-}
-
-// Then continue normal
-console.log("Initializing app data");
 
 (async () => {
   try {
